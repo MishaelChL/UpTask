@@ -10,4 +10,8 @@ exports.formularioProyecto = (req, res) => {
   });
 };
 
+exports.nuevoProyecto = (req, res) => {
+  
+};
+
 
