@@ -4,4 +4,10 @@ exports.proyectosHome = (req, res) => {
   });
 };
 
+exports.formularioProyecto = (req, res) => {
+  res.render("nuevoProyecto", {
+    nombrePagina : 'Nuevo Proyecto'
+  });
+};
+
 
