@@ -2,6 +2,18 @@ const express = require("express");
 const routes = require("./routes");
 const path = require("path");
 
+//crear la conexion a la bd
+const db = require("./config/db");
+
+require("./models/Proyectos");
+
+try {
+    db.sync();
+    console.log('Connection has been established successfully.');
+} catch (error) {
+    console.error('Unable to connect to the database:', error);
+}
+
 //crear una app de express
 const app = express();
 
