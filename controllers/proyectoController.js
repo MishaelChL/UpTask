@@ -17,7 +17,7 @@ exports.nuevoProyecto = async (req, res) => {
   //console.log(req.body);
 
   //validar que tengamos algo en el imput
-  const { nombre } = req.body;
+  const nombre  = req.body.nombre;
 
   let errores = [];
 
