@@ -47,12 +47,22 @@ exports.nuevoProyecto = async (req, res) => {
 };
 
 exports.proyectoPorUrl = async (req, res, next) => {
-  const proyectos = await Proyectos.findAll();
-  const proyecto = await Proyectos.findOne({
+  // const proyectos = await Proyectos.findAll();
+  // const proyecto = await Proyectos.findOne({
+  //   where: {
+  //     url: req.params.url
+  //   }
+  // });
+
+  const proyectosPromise = Proyectos.findAll();
+
+  const proyectoPromise = Proyectos.findOne({
     where: {
       url: req.params.url
     }
   });
+
+  const [proyectos, proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
 
   if(!proyecto) return next();
 
@@ -66,11 +76,22 @@ exports.proyectoPorUrl = async (req, res, next) => {
 }
 
 exports.formularioEditar = async (req, res) => {
-  const proyectos = await Proyectos.findAll();
+  const proyectosPromise = Proyectos.findAll();
+
+  const proyectoPromise = Proyectos.findOne({
+    where: {
+      id: req.params.id
+    }
+  });
+
+  const [proyectos, proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
+
+
   //render a la vista
   res.render("nuevoProyecto", {
     nombrePagina: "Editar Proyecto",
-    proyectos
+    proyectos,
+    proyecto
   });
 }
 
