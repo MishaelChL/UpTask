@@ -42,4 +42,8 @@ exports.nuevoProyecto = async (req, res) => {
   }
 };
 
+exports.proyectoPorUrl = (req, res) => {
+  
+}
+
 

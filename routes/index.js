@@ -13,6 +13,8 @@ module.exports = function () {
   router.get("/nuevo-proyecto", proyectosController.formularioProyecto);
   router.post("/nuevo-proyecto", body("nombre").not().isEmpty().trim().escape(), proyectosController.nuevoProyecto);
 
+  //listar proyecto
+  router.get("/proyectos/:url", proyectosController.proyectoPorUrl);
 
   return router;
 };
