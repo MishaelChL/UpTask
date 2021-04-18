@@ -9,6 +9,7 @@ const helpers = require("./helpers");
 const db = require("./config/db");
 
 require("./models/Proyectos");
+require("./models/Tareas");
 
 try {
     db.sync();
