@@ -17,25 +17,23 @@ if(btnEliminar){
           confirmButtonText: "Si, borrar",
           cancelButtonText: "No, cancelar",
         }).then((result) => {
-          if (result.isConfirmed) {
-            //enviar peticion a axios
-            const url = `${location.origin}/proyectos/${urlProyecto}`;
-            // console.log(url);
-            
-            axios.delete(url, { params: urlProyecto })
-                .then(function(respuesta){
-                    console.log(respuesta);
-                });
+            if (result.isConfirmed) {
+                //enviar peticion a axios
+                const url = `${location.origin}/proyectos/${urlProyecto}`;
+                // console.log(url);
+                
+                axios.delete(url, { params: {urlProyecto} })
+                    .then(function(respuesta){
+                        console.log(respuesta);
 
-                return;
+                        Swal.fire("Eliminado!", respuesta.data, "success");
 
-            Swal.fire("Eliminado!", "Tu proyecto se ha eliminado", "success");
-      
-            //redireccionar al inicio
-            setTimeout(() => {
-                window.location.href = "/";
-            }, 3000);
-          }
+                        //redireccionar al inicio
+                        setTimeout(() => {
+                            window.location.href = "/";
+                        }, 3000);
+                    });
+            }
         });
     });
 }
