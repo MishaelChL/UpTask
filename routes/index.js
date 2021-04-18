@@ -27,6 +27,9 @@ module.exports = function () {
   //tareas
   router.post("/proyectos/:url", tareasController.agregarTarea);
 
+  //actualizar tarea, cambiar el estado, ---ojo---put cambia toda la tupla mientras que patch solo una porcion de la tupla
+  router.patch("/tareas/:id", tareasController.cambiarEstadoTarea);
+
 
 
   return router;
