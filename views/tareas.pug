@@ -14,12 +14,6 @@ block contenido
 
         //- pre= vardump(tareas) 
 
-        //Avance del proyecto
-        .avance
-            h2 Avance de proyecto
-            #barra-avance.barra-avance
-                #porcentaje.porcentaje
-
         //Listar tareas del proyecto actual
         .listado-pendientes
             ul 
@@ -35,6 +29,12 @@ block contenido
                                 i.fas.fa-trash
                 else
                     p No hay tareas en este proyecto
+
+        //Avance del proyecto
+        .avance
+            h2 Avance de proyecto
+            #barra-avance.barra-avance
+                #porcentaje.porcentaje
         
         //Acciones que se puedan realizar
         .contenedor-acciones
