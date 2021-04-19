@@ -6,18 +6,23 @@ exports.formCrearCuenta = (req, res) => {
     });
 }
 
-exports.crearCuenta = (req, res) => {
+exports.crearCuenta = async (req, res) => {
     //leer los datos
     // console.log(req.body);
     const { email, password } = req.body;
 
-    //crear el usuario
-    Usuarios.create({
-        email,
-        password,
-    }).then(() => {
-        res.redirect("/iniciar-sesion");
-    });
-
-
+    try {
+        //crear el usuario
+        await Usuarios.create({
+            email,
+            password,
+        });
+            res.redirect("/iniciar-sesion");
+    } catch (error) {
+        // console.log(error);
+        res.render("crearCuenta", {
+            error: error.errors,
+            nombrePagina: "Crear Cuenta en UpTask"
+        });
+    }
 }
