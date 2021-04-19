@@ -10,6 +10,7 @@ const db = require("./config/db");
 
 require("./models/Proyectos");
 require("./models/Tareas");
+require("./models/Usuarios");
 
 try {
     db.sync();
