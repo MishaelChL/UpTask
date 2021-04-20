@@ -6,6 +6,11 @@ html(lang="en")
         .contenedor-formulario
             h1 Crea tu cuenta en UpTask 
 
+            //- pre= vardump(error)
+            if error 
+                if error === "llave duplicada viola restricción de unicidad «usuarios_email_key»"
+                    p.error.alerta= "Usuario ya registrado"
+
             form#formulario.caja.caja-login(action="/crear-cuenta" method="POST")
                 .campo 
                     label(for="email") Email: 
