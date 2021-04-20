@@ -1,5 +1,5 @@
 const passport = require("passport");
-const localStrategy = require("passport-local").Strategy;
+const LocalStrategy = require("passport-local").Strategy;
 
 //referencia al modelo donde vamos a autenticar
 const Usuarios = require("../models/Usuarios");
@@ -21,8 +21,12 @@ passport.use(
                 });
                 //El usuario no existe pero el password no puede ser el correcto
                 if(!usuario.verificarPassword(password)){
-                    
+                    return done(null, false, {
+                        message: "Password incorrecto"
+                    })
                 }
+                //El email existe, y el password correcto
+                return done(null, usuario);
             } catch (error) {
                 //ese usuario no existe
                 return done(null, false, {
@@ -31,4 +35,17 @@ passport.use(
             }
         } 
     )
-)
+);
+
+//serializar el usuario
+passport.serializeUser((usuario, callback) => {
+    callback(null, usuario);
+});
+
+//deserializar el usuario
+passport.deserializeUser((usuario, callback) => {
+    callback(null, usuario);
+});
+
+//exportar
+module.exports = passport;
