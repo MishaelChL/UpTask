@@ -30,3 +30,10 @@ exports.crearCuenta = async (req, res) => {
         });
     }
 }
+
+exports.formIniciarSesion = (req, res) => {
+    res.render("iniciarSesion", {
+        nombrePagina: "Iniciar Sesion en UpTask"
+    });
+}
+
