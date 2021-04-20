@@ -8,6 +8,9 @@ html(lang="en")
 
             //- pre= vardump(error)
 
+            if error
+                p.alerta.error= error
+
             form#formulario.caja.caja-login(action="/iniciar-sesion" method="POST")
                 .campo 
                     label(for="email") Email: 

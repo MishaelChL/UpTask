@@ -32,8 +32,11 @@ exports.crearCuenta = async (req, res) => {
 }
 
 exports.formIniciarSesion = (req, res) => {
+    console.log(res.locals.mensajes);
+    const { error } = res.locals.mensajes;
     res.render("iniciarSesion", {
-        nombrePagina: "Iniciar Sesion en UpTask"
+        nombrePagina: "Iniciar Sesion en UpTask",
+        error: error,
     });
 }
 
