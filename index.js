@@ -2,6 +2,8 @@ const express = require("express");
 const routes = require("./routes");
 const path = require("path");
 const flash = require("connect-flash");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 
 //helpers con algunas funciones
 const helpers = require("./helpers");
@@ -23,20 +25,29 @@ try {
 //crear una app de express
 const app = express();
 
-//habilitar bodyParser para leer datos del formulario
-app.use(express.urlencoded({extended: true}));
-
 //donde cargar los archivos estaticos
 app.use(express.static("public"));
 
 //habilitar pug
 app.set("view engine", "pug");
 
+//habilitar bodyParser para leer datos del formulario
+app.use(express.urlencoded({extended: true}));
+
 //añadir la carpeta de la vistas
 app.set("views", path.join(__dirname, "views"));
 
 //agregar flash messages
 app.use(flash());
+
+app.use(cookieParser());
+
+//sesiones nos permite navegar entre paginas entre distintas paginas sin volvernos a autenticar
+app.use(session({
+    secret: "supersecreto",
+    resave: false,
+    saveUninitialized: false,
+}));
 
 //pasar el vardump a la app
 app.use((req, res, next) => {

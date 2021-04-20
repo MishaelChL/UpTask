@@ -24,7 +24,9 @@ exports.crearCuenta = async (req, res) => {
         // console.log("-----------------------");
         res.render("crearCuenta", {
             error: error.message,
-            nombrePagina: "Crear Cuenta en UpTask"
+            nombrePagina: "Crear Cuenta en UpTask",
+            email,
+            password
         });
     }
 }
