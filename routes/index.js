@@ -74,6 +74,9 @@ module.exports = function () {
   router.post("/crear-cuenta", 
     usuariosController.crearCuenta
   );
+  router.get("/confirmar/:correo", 
+    usuariosController.confirmarCuenta
+  );
 
   //iniciar sesion
   router.get("/iniciar-sesion", 
@@ -101,6 +104,7 @@ module.exports = function () {
   router.post("/reestablecer/:token", 
     authController.actualizarPassword
   );
+  
 
   return router;
 };
