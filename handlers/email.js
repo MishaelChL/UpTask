@@ -16,17 +16,23 @@ let transport = nodemailer.createTransport({
 });
 
 //generar HTML
-const generarHTML = () => {
-    const html = pug.renderFile(`${__dirname}/../views/emails/reestablecerPassword.pug`);
+const generarHTML = (archivo, opciones = {}) => {
+    const html = pug.renderFile(`${__dirname}/../views/emails/${archivo}.pug`, opciones);
     return juice(html);
 }
 
-let mailOptions = {
-    from: 'UpTask <no-reply@uptask.com>',
-    to: "jose.mishael.chile@gmail.com",
-    subject: "Password Reset",
-    text: "Hello",
-    html: generarHTML(),
-};
+exports.enviar = async (opciones) => {
+    const html = generarHTML(opciones.archivo, opciones);
+    const text = htmlToText.fromString(html);
+    let opcionesEmail = {
+        from: 'UpTask <no-reply@uptask.com>',
+        to: opciones.usuario.email,
+        subject: opciones.subject,
+        text,
+        html, 
+    };
+    
+    const enviarMail = util.promisify(transport.sendMail, transport);
+    return enviarMail.call(transport, opcionesEmail);
+}
 
-transport.sendMail(mailOptions);
