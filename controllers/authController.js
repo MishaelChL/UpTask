@@ -52,5 +52,19 @@ exports.enviarToken = async (req, res) => {
 }
 
 exports.resetPassword = async (req, res) => {
-    res.json(req.params.token); // ojooooooooo - diferencia entre body - params -> body: los name o value de los forms, params: las variables en el url
+    // res.json(req.params.token); // ojooooooooo - diferencia entre body - params -> body: los name o value de los forms, params: las variables en el url
+    const usuario = await Usuarios.findOne({ where: { token: req.params.token } });
+    console.log(usuario);
+
+    //si no encuentra el usuario
+    if(!usuario){
+        req.flash("error", "No valido");
+        res.redirect("/reestablecer");
+    }
+
+    //cuando encuentre al usuario
+    //formulario para generar el password
+    res.render('resetPassword', {
+        nombrePagina : 'Reestablecer Contraseña'
+      });
 }
