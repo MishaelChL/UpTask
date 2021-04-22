@@ -1,6 +1,8 @@
 const passport = require("passport");
 const Usuarios = require("../models/Usuarios");
 const crypto = require("crypto");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 exports.autenticarUsuario = passport.authenticate("local", {
     successRedirect: "/",
@@ -51,7 +53,7 @@ exports.enviarToken = async (req, res) => {
     console.log(resetUrl);
 }
 
-exports.resetPassword = async (req, res) => {
+exports.validarToken = async (req, res) => {
     // res.json(req.params.token); // ojooooooooo - diferencia entre body - params -> body: los name o value de los forms, params: las variables en el url
     const usuario = await Usuarios.findOne({ where: { token: req.params.token } });
     console.log(usuario);
@@ -67,4 +69,28 @@ exports.resetPassword = async (req, res) => {
     res.render('resetPassword', {
         nombrePagina : 'Reestablecer Contraseña'
       });
+}
+
+//cambia el password por uno nuevo
+exports.actualizarPassword = async (req, res) => {
+    // console.log(req.params.token);
+
+    //verifica el token valido  pero tambien la fecha de expiracion
+    const usuario = await Usuarios.findOne({ 
+        where: { 
+            token: req.params.token,
+            expiracion: {
+                [Op.gte] : Date.now() // op = operador, gte = mayor igual que, donde expiracion sea mayor a la hora actual
+            } 
+        } 
+    });
+
+    //verificamos si el usuario existe
+    if(!usuario){
+        req.flash("error", "No valido");
+        res.redirect("/reestablecer");
+    }
+
+
+    
 }
