@@ -1,4 +1,5 @@
 const Usuarios = require("../models/Usuarios");
+const enviarEmail = require("../handlers/email");
 
 exports.formCrearCuenta = (req, res) => {
     res.render("crearCuenta", {
@@ -17,7 +18,27 @@ exports.crearCuenta = async (req, res) => {
             email,
             password,
         });
-            res.redirect("/iniciar-sesion");
+
+        //crear una url para confirmar
+        const confirmarUrl = `http://${req.headers.host}/confirmar/${email}`;
+        console.log(confirmarUrl);
+
+        //crear el objeto de usuario
+        const usuario = {
+            email
+        }
+
+        //enviar email
+        await enviarEmail.enviar({
+            usuario,
+            subject: "Confirma tu cuenta en UpTask",
+            confirmarUrl,
+            archivo: "confirmarCuenta"
+        });
+
+        //redirigir al usuario
+        req.flash("correcto", "Enviamos un correo, confirma tu cuenta");
+        res.redirect("/iniciar-sesion");
     } catch (error) {
         // console.log("MOSTRAR ERROR");
         // console.log(error);
