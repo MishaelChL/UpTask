@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const pug = require("pug");
 const juice = require("juice");
-const htmlToText = require("html-to-text");
+const {htmlToText} = require("html-to-text");
 const util = require("util");
 const emailConfig = require("../config/email");
 
@@ -23,7 +23,7 @@ const generarHTML = (archivo, opciones = {}) => {
 
 exports.enviar = async (opciones) => {
     const html = generarHTML(opciones.archivo, opciones);
-    const text = htmlToText.fromString(html);
+    const text = htmlToText(html);
     let opcionesEmail = {
         from: 'UpTask <no-reply@uptask.com>',
         to: opciones.usuario.email,
