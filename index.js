@@ -6,6 +6,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("./config/passport");
 
+
 //helpers con algunas funciones
 const helpers = require("./helpers");
 
@@ -67,3 +68,5 @@ app.use((req, res, next) => {
 app.use("/", routes());
 
 app.listen(3000);
+
+require("./handlers/email");
