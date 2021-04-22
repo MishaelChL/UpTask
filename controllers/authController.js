@@ -3,6 +3,7 @@ const Usuarios = require("../models/Usuarios");
 const crypto = require("crypto");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const bcrypt = require("bcrypt-nodejs");
 
 exports.autenticarUsuario = passport.authenticate("local", {
     successRedirect: "/",
@@ -54,7 +55,7 @@ exports.enviarToken = async (req, res) => {
 }
 
 exports.validarToken = async (req, res) => {
-    // res.json(req.params.token); // ojooooooooo - diferencia entre body - params -> body: los name o value de los forms, params: las variables en el url
+    // res.json(req.params.token); // ojooooooooo - diferencia entre body - params -> body: los name de los forms, params: las variables en el url
     const usuario = await Usuarios.findOne({ where: { token: req.params.token } });
     console.log(usuario);
 
@@ -91,6 +92,15 @@ exports.actualizarPassword = async (req, res) => {
         res.redirect("/reestablecer");
     }
 
+    //hashear el nuevo password
+    usuario.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+    usuario.token = null;
+    usuario.expiracion = null;
+    
+    //guardamos el nuevo password
+    await usuario.save();
+    req.flash("correcto", "Tu password se ha modificado correctamente");
+    res.redirect("/iniciar-sesion");
 
     
 }
